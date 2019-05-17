@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- namespace的值就是dao接口的完整路径，就这个demo而言namespace 就是userDao.java的完整路径 -->
+<mapper namespace="com.zuo.dao.MemberDao">
+	<resultMap id="Members" type="com.zuo.pojo.Member">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="all" type="com.zuo.pojo.Member">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="age" property="age" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, name, phone, age
+	</sql>
+	<select id="getMemberById" resultMap="Members"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from member
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectMembers" resultMap="all"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from member
+	</select>
+	<insert id="insert" parameterType="com.zuo.pojo.Member">
+		insert into member (id,
+		name, phone, age)
+		values (#{id,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR},
+		#{age,jdbcType=INTEGER})
+	</insert>
+</mapper>
